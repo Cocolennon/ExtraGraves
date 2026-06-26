@@ -43,7 +43,7 @@ public class PlayerDeathListener implements Listener {
         Helper.setPlayer(grave, player);
         Helper.setInventory(grave, player.getInventory().getContents());
         populateCurios(grave, player);
-        Helper.setExperience(grave, player);
+        Helper.setExperience(grave, player.getTotalExperience());
         Helper.setArmor(grave, player.getInventory().getArmorContents());
         Helper.setOffHand(grave, player.getInventory().getItemInOffHand());
     }
