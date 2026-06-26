@@ -19,7 +19,7 @@ public class PlayerInteractListener implements Listener {
         if(!player.isSneaking()) return;
         Block block = event.getClickedBlock();
         if(block == null || !Helper.isGrave(block)) return;
-        if(Helper.isGrave(block)) {
+        if(Helper.isGraveBusy(block)) {
             player.sendMessage(Localization.get(player, "grave-busy", true));
             return;
         }
