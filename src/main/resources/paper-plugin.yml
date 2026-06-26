@@ -4,3 +4,9 @@ main: me.cocolennon.extragraves.Main
 version: 1.0.0
 author: Cocolennon
 api-version: '1.21.11'
+dependencies:
+  server:
+    Nexo:
+      load: BEFORE
+      required: true
+      join-classpath: true
