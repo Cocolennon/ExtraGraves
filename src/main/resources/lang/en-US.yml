@@ -3,5 +3,6 @@
 # Some nodes have "%s" inside. Those are replaced by values provided by the plugin, don't forget to put them in translations too!
 
 prefix: "<#FF55FF>[<#AA00AA>Extra Graves<#FF55FF>]"
+death: "<#AA00AA>You have <#C20000>died<#AA00AA>! Your grave is at X: <#C20000>%s <#AA00AA>Y: <#C20000>%s <#AA00AA>Z: <#C20000>%s"
 success:
   reload: "<#AA00AA>Configuration reloaded!"

@@ -3,6 +3,7 @@ package me.cocolennon.extragraves.listeners;
 import com.nexomc.nexo.api.NexoBlocks;
 import me.cocolennon.extragraves.Main;
 import me.cocolennon.extragraves.util.Helper;
+import me.cocolennon.extragraves.util.Localization;
 import org.bg52.curiospaper.CuriosPaper;
 import org.bg52.curiospaper.api.CuriosPaperAPI;
 import org.bukkit.Location;
@@ -28,6 +29,7 @@ public class PlayerDeathListener implements Listener {
         populateGrave(deathLocation, player);
         event.getDrops().clear();
         event.setDroppedExp(0);
+        if(Main.getInstance().config().sendCoordinates) player.sendMessage(Localization.get(player, "death", true, deathLocation.getX(), deathLocation.getY(), deathLocation.getZ()));
     }
 
     private void placeGrave(Location location) {

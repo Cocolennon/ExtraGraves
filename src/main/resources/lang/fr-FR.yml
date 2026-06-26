@@ -3,5 +3,6 @@
 # Certains noeuds ont "%s" dans le texte. Ils sont remplacés par des valeurs fournies par le plugin, ne les oubliez pas dans les traductions !
 
 prefix: "<#FF55FF>[<#AA00AA>Extra Graves<#FF55FF>]"
+death: "<#AA00AA>Vous êtes <#C20000>mort <#AA00AA>! Votre tombe est en X: <#C20000>%s <#AA00AA>Y: <#C20000>%s <#AA00AA>Z: <#C20000>%s"
 success:
   reload: "<#AA00AA>Configuration rechargée !"
