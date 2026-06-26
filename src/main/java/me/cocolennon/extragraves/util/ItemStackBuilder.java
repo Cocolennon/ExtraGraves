@@ -7,8 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.List;
-
 public class ItemStackBuilder {
     private final ItemStack itemStack;
 
@@ -26,13 +24,6 @@ public class ItemStackBuilder {
     public <P, C> ItemStackBuilder setKeyValue(NamespacedKey key, PersistentDataType<P, C> type, C value) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.getPersistentDataContainer().set(key, type, value);
-        itemStack.setItemMeta(itemMeta);
-        return this;
-    }
-
-    public ItemStackBuilder lore(List<Component> lore) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.lore(lore);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
