@@ -90,12 +90,6 @@ public class Localization {
         return miniMessage.deserialize(prefix + message.formatted(values));
     }
 
-    public static String console(String path, Object... values) {
-        String localeTag = normalizeLocale(fallback);
-        FileConfiguration locale =  locales.get(localeTag);
-        return getLocalizedString(locale, path).formatted(values);
-    }
-
     private static String normalizeLocale(String locale) {
         locale = locale.replace("_", "-");
         String[] split = locale.split("-");
