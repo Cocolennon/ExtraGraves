@@ -7,5 +7,6 @@ menu-title: "<#AA00AA>Tombe de <#FF55FF>%s"
 curios-title: "<#AA00AA>Babioles de <#FF55FF>%s"
 death: "<#AA00AA>Vous êtes <#C20000>mort <#AA00AA>! Votre tombe est en X: <#C20000>%s <#AA00AA>Y: <#C20000>%s <#AA00AA>Z: <#C20000>%s"
 grave-busy: "<#AA00AA>Cette tombe est <#C20000>actuellement ouverte <#AA00AA>par quelqu'un d'autre !"
+grave-deleted: "<#AA00AA>Cette tombe a été supprimée car elle est maintenant vide."
 success:
   reload: "<#AA00AA>Configuration rechargée !"
