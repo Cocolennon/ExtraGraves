@@ -2,7 +2,9 @@
 default-locale: "en-US"
 # Downloads updates from Spigot automatically
 auto-updater-enabled: true
-# The block that will act as a grave upon player death. For Nexo blocks, make it nexo-namespace:block_name (example: nexo-mycustomblocks:custom_block)
+# The block that will act as a grave upon player death.
+# For Nexo blocks, make it nexo-namespace:block_name (example: nexo-mycustomblocks:custom_block)
+# Nexo graves have to be a BLOCK, not a FURNITURE
 grave-block: "minecraft:stone_bricks"
 # Whether to send the player's death coordinates to them in chat
 send-coordinates: true
