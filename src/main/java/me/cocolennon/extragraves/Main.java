@@ -3,6 +3,7 @@ package me.cocolennon.extragraves;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import me.cocolennon.extragraves.commands.GravesCommand;
 import me.cocolennon.extragraves.listeners.PlayerDeathListener;
+import me.cocolennon.extragraves.listeners.PlayerInteractListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -36,6 +37,7 @@ public class Main extends JavaPlugin {
 
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), instance);
+        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), instance);
     }
 
     @Override

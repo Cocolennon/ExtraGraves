@@ -15,6 +15,7 @@ import java.util.*;
 
 public class Helper {
     private static final Main main = Main.getInstance();
+    public static final NamespacedKey buttonActionKey = new NamespacedKey(main, "buttonAction");
     private static final NamespacedKey playerUUIDKey = new NamespacedKey(main, "playerUUID");
     private static final NamespacedKey inventoryKey = new NamespacedKey(main, "inventory");
     private static final NamespacedKey curiosKey = new NamespacedKey(main, "curios");
