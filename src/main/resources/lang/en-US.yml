@@ -1,0 +1,7 @@
+# Editing this file allows you to change what the plugin says!
+# You can also create other language files to support more languages, following the same file name format my plugin and Minecraft does!
+# Some nodes have "%s" inside. Those are replaced by values provided by the plugin, don't forget to put them in translations too!
+
+prefix: "<#FF55FF>[<#AA00AA>Extra Graves<#FF55FF>]"
+success:
+  reload: "<#AA00AA>Configuration reloaded!"

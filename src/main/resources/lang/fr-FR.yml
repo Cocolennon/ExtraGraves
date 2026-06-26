@@ -1,0 +1,7 @@
+# Modifier ce fichier vous permettra de changer ce que le plugin dit !
+# Vous pouvez aussi créer d'autres fichiers de langue pour prendre en charge plus de langues en suivant le même format de nom que mon plugin et Minecraft
+# Certains noeuds ont "%s" dans le texte. Ils sont remplacés par des valeurs fournies par le plugin, ne les oubliez pas dans les traductions !
+
+prefix: "<#FF55FF>[<#AA00AA>Extra Graves<#FF55FF>]"
+success:
+  reload: "<#AA00AA>Configuration rechargée !"
