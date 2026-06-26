@@ -1,0 +1,48 @@
+package me.cocolennon.extragraves.listeners;
+
+import me.cocolennon.extragraves.util.GraveHelper;
+import me.cocolennon.extragraves.util.GraveInventoryHolder;
+import me.cocolennon.extragraves.util.Helper;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class InventoryClickListener implements Listener {
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        Inventory clicked = event.getClickedInventory();
+        if(!(clicked.getHolder() instanceof GraveInventoryHolder graveHolder)) return;
+        ItemStack current = event.getCurrentItem();
+        if(current == null || !current.hasItemMeta()) return;
+        if(!Helper.hasButtonAction(current)) return;
+        event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        Block grave = graveHolder.getGrave();
+        switch(Helper.getButtonAction(current)) {
+            case "openCurios" -> {
+                GraveHelper.saveGrave(grave, clicked);
+                GraveHelper.openCurios(player, grave);
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            }
+            case "experience" -> {
+                clicked.setItem(52, new ItemStack(Material.AIR));
+                player.giveExp(Helper.getExperience(grave));
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            }
+            case "backToGrave" -> {
+                GraveHelper.saveCurios(grave, clicked);
+                GraveHelper.openGrave(player, grave);
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            }
+        }
+    }
+}

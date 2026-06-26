@@ -10,12 +10,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
 public class Helper {
     private static final Main main = Main.getInstance();
     public static final NamespacedKey buttonActionKey = new NamespacedKey(main, "buttonAction");
+    private static final NamespacedKey graveBusyKey = new NamespacedKey(main, "graveBusy");
     private static final NamespacedKey playerUUIDKey = new NamespacedKey(main, "playerUUID");
     private static final NamespacedKey inventoryKey = new NamespacedKey(main, "inventory");
     private static final NamespacedKey curiosKey = new NamespacedKey(main, "curios");
@@ -23,10 +25,27 @@ public class Helper {
     private static final NamespacedKey armorKey = new NamespacedKey(main, "armor");
     private static final NamespacedKey offHandKey = new NamespacedKey(main, "offhand");
 
+    public static boolean hasButtonAction(ItemStack item) {
+        return item.getItemMeta().getPersistentDataContainer().has(buttonActionKey, PersistentDataType.STRING);
+    }
+
+    public static String getButtonAction(ItemStack item) {
+        return item.getItemMeta().getPersistentDataContainer().get(buttonActionKey, PersistentDataType.STRING);
+    }
+
     public static boolean isGrave(Block block) {
         if(!NexoBlocks.isCustomBlock(block)) return false;
         PersistentDataContainer pdc = new CustomBlockData(block, main);
         return pdc.has(playerUUIDKey);
+    }
+
+    public static boolean isGraveBusy(Block grave) {
+        PersistentDataContainer pdc = new CustomBlockData(grave, main);
+        return pdc.has(graveBusyKey) ? pdc.get(graveBusyKey,  PersistentDataType.BOOLEAN) : false;
+    }
+
+    public static void setGraveBusy(Block grave, boolean value) {
+        new CustomBlockData(grave, main).set(graveBusyKey, PersistentDataType.BOOLEAN, value);
     }
 
     public static Player getPlayer(Block grave) {
@@ -61,8 +80,8 @@ public class Helper {
         return new CustomBlockData(grave, main).get(experienceKey, DataType.INTEGER);
     }
 
-    public static void setExperience(Block grave, Player player) {
-        new CustomBlockData(grave, main).set(experienceKey, DataType.INTEGER, player.getTotalExperience());
+    public static void setExperience(Block grave, int experience) {
+        new CustomBlockData(grave, main).set(experienceKey, DataType.INTEGER, experience);
     }
 
     public static List<ItemStack> getArmor(Block grave) {

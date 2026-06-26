@@ -4,8 +4,12 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraveHelper {
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
@@ -47,5 +51,36 @@ public class GraveHelper {
         curiosInventory.setItem(22, backToGrave);
         curiosInventory.fillEmpty(0);
         curiosInventory.openInventory(player);
+    }
+
+    public static void saveGrave(Block grave, Inventory graveInventory) {
+        List<ItemStack> inventoryItems = new ArrayList<>();
+        for(int invSlot = 0; invSlot <= 35; invSlot++ ) {
+            ItemStack item = graveInventory.getItem(invSlot);
+            if(item == null) continue;
+            inventoryItems.add(item);
+        }
+        Helper.setInventory(grave, inventoryItems.toArray(ItemStack[]::new));
+        List<ItemStack> armorItems = new ArrayList<>();
+        for(int armorSlot = 46; armorSlot <= 49; armorSlot++ ) {
+            ItemStack item = graveInventory.getItem(armorSlot);
+            if(item == null) continue;
+            armorItems.add(item);
+        }
+        Helper.setArmor(grave, armorItems.toArray(ItemStack[]::new));
+        ItemStack offHand = graveInventory.getItem(51);
+        Helper.setOffHand(grave, offHand == null ? new ItemStack(Material.AIR) : offHand);
+        if(graveInventory.getItem(52) == null) Helper.setExperience(grave, 0);
+    }
+
+    public static void saveCurios(Block grave, Inventory curiosInventory) {
+        List<ItemStack> curiosItems = new ArrayList<>();
+        for(int invSlot = 10; invSlot <= 16; invSlot++ ) {
+            if(invSlot == 13) continue;
+            ItemStack item = curiosInventory.getItem(invSlot);
+            if(item == null) continue;
+            curiosItems.add(item);
+        }
+        Helper.setCurios(grave, curiosItems);
     }
 }
