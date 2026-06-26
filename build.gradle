@@ -19,8 +19,8 @@ repositories {
     mavenLocal()
 
     maven { url = 'https://repo.papermc.io/repository/maven-public/' }
-    maven { url = "https://repo.nexomc.com/releases" }
     maven { url = "https://jitpack.io" }
+    maven { url = "https://repo.nexomc.com/releases" }
 }
 
 dependencies {
