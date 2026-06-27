@@ -34,7 +34,7 @@ public class Helper {
     }
 
     public static boolean isGrave(Block block) {
-        if(!NexoBlocks.isCustomBlock(block)) return false;
+        if(Main.getInstance().config().graveBlockName.startsWith("nexo-") && !NexoBlocks.isCustomBlock(block)) return false;
         PersistentDataContainer pdc = new CustomBlockData(block, main);
         return pdc.has(playerUUIDKey);
     }
