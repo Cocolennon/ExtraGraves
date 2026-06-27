@@ -18,6 +18,7 @@ public class InventoryCloseListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
+        if(event.getReason().equals(InventoryCloseEvent.Reason.DISCONNECT)) return;
         if(!(inventory.getHolder() instanceof GraveInventoryHolder graveHolder)) return;
         Block grave =  graveHolder.getGrave();
         switch(graveHolder.getType()) {
