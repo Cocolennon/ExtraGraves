@@ -41,10 +41,20 @@ public class PlayerDeathListener implements Listener {
     private void populateGrave(Location location, Player player) {
         Block grave = location.getBlock();
         Helper.setPlayer(grave, player);
-        Helper.setInventory(grave, player.getInventory().getContents());
+        List<ItemStack> inventoryItems = new ArrayList<>();
+        for(ItemStack inventoryItem : player.getInventory().getContents()) {
+            if(inventoryItem == null) continue;
+            inventoryItems.add(inventoryItem);
+        }
+        Helper.setInventory(grave, inventoryItems.toArray(ItemStack[]::new));
         populateCurios(grave, player);
         Helper.setExperience(grave, player.getTotalExperience());
-        Helper.setArmor(grave, player.getInventory().getArmorContents());
+        List<ItemStack> armorItems = new ArrayList<>();
+        for(ItemStack armorItem : player.getInventory().getArmorContents()) {
+            if(armorItem == null) continue;
+            armorItems.add(armorItem);
+        }
+        Helper.setArmor(grave, armorItems.toArray(ItemStack[]::new));
         Helper.setOffHand(grave, player.getInventory().getItemInOffHand());
     }
 

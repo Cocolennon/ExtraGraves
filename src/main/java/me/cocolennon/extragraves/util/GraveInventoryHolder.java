@@ -25,10 +25,12 @@ public class GraveInventoryHolder implements InventoryHolder {
     }
 
     public void addItem(ItemStack item) {
+        if(item == null) return;
         inventory.addItem(item);
     }
 
     public void setItem(int slot, ItemStack item) {
+        if(item == null) return;
         inventory.setItem(slot, item);
     }
 
