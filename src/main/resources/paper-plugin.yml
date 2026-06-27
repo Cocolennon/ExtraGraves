@@ -17,3 +17,5 @@ dependencies:
 permissions:
   extragraves.grave-on-death:
     description: Allows players to have their stuff kept in a grave when dying
+  extragraves.break-graves:
+    description: Allows players to break graves

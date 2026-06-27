@@ -14,6 +14,7 @@ public class BlockBreakListener implements Listener {
         Block block = event.getBlock();
         if(!Helper.isGrave(block)) return;
         Player player = event.getPlayer();
+        if(player.hasPermission("extragraves.break-graves")) return;
         player.sendMessage(Localization.get(player, "grave-break", true));
         event.setCancelled(true);
     }
