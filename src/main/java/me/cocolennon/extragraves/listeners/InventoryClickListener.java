@@ -17,7 +17,7 @@ public class InventoryClickListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Inventory clicked = event.getClickedInventory();
-        if(!(clicked.getHolder() instanceof GraveInventoryHolder graveHolder)) return;
+        if(clicked == null || !(clicked.getHolder() instanceof GraveInventoryHolder graveHolder)) return;
         ItemStack current = event.getCurrentItem();
         if(current == null || !current.hasItemMeta()) return;
         if(!Helper.hasButtonAction(current)) return;
