@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerDeathListener implements Listener {
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         if(!player.hasPermission("extragraves.grave-on-death")) return;
@@ -41,12 +41,6 @@ public class PlayerDeathListener implements Listener {
     private void populateGrave(Location location, Player player) {
         Block grave = location.getBlock();
         Helper.setPlayer(grave, player);
-        List<ItemStack> inventoryItems = new ArrayList<>();
-        for(ItemStack inventoryItem : player.getInventory().getContents()) {
-            if(inventoryItem == null) continue;
-            inventoryItems.add(inventoryItem);
-        }
-        Helper.setInventory(grave, inventoryItems.toArray(ItemStack[]::new));
         populateCurios(grave, player);
         Helper.setExperience(grave, player.getTotalExperience());
         List<ItemStack> armorItems = new ArrayList<>();
@@ -56,6 +50,14 @@ public class PlayerDeathListener implements Listener {
         }
         Helper.setArmor(grave, armorItems.toArray(ItemStack[]::new));
         Helper.setOffHand(grave, player.getInventory().getItemInOffHand());
+        List<ItemStack> inventoryItems = new ArrayList<>();
+        for(ItemStack inventoryItem : player.getInventory().getContents()) {
+            if(inventoryItem == null) continue;
+            if(armorItems.contains(inventoryItem)) continue;
+            if(inventoryItem.equals(player.getInventory().getItemInOffHand())) continue;
+            inventoryItems.add(inventoryItem);
+        }
+        Helper.setInventory(grave, inventoryItems.toArray(ItemStack[]::new));
     }
 
     private void populateCurios(Block grave, Player player) {
@@ -63,10 +65,12 @@ public class PlayerDeathListener implements Listener {
         List<ItemStack> curiosItems = new ArrayList<>();
         for(String slot : curios.getAllSlotTypes()) {
             List<ItemStack> equipped = curios.getEquippedItems(player, slot);
-            if(equipped != null) {
-                curiosItems.addAll(equipped);
-                curios.clearEquippedItems(player, slot);
-            }
+            if(equipped == null) continue;
+            if(equipped.isEmpty()) continue;
+            curiosItems.addAll(equipped);
+        }
+        for(String slot : curios.getAllSlotTypes()) {
+            curios.clearEquippedItems(player, slot);
         }
         Helper.setCurios(grave, curiosItems);
     }
