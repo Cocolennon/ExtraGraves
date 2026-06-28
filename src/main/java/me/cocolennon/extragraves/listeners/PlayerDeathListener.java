@@ -1,6 +1,14 @@
 package me.cocolennon.extragraves.listeners;
 
 import com.nexomc.nexo.api.NexoBlocks;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.cocolennon.extragraves.Main;
 import me.cocolennon.extragraves.util.Helper;
 import me.cocolennon.extragraves.util.Localization;
@@ -25,11 +33,21 @@ public class PlayerDeathListener implements Listener {
         Player player = event.getPlayer();
         if(!player.hasPermission("extragraves.grave-on-death")) return;
         Location deathLocation = player.getLocation();
+        if(checkKeepInventoryRegion(player, deathLocation)) return;
         placeGrave(deathLocation);
         populateGrave(deathLocation, player);
         event.getDrops().clear();
         event.setDroppedExp(0);
         if(Main.getInstance().config().sendCoordinates) player.sendMessage(Localization.get(player, "death", true, (int) deathLocation.getX(), (int) deathLocation.getY(), (int) deathLocation.getZ()));
+    }
+
+    private boolean checkKeepInventoryRegion(Player player, Location location) {
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = container.createQuery();
+        ApplicableRegionSet regions = query.getApplicableRegions(BukkitAdapter.adapt(location));
+        StateFlag KEEP_INVENTORY = (StateFlag) WorldGuard.getInstance().getFlagRegistry().get("keep-inventory");
+        if(KEEP_INVENTORY == null) return false;
+        return regions.queryState(WorldGuardPlugin.inst().wrapPlayer(player), KEEP_INVENTORY) == StateFlag.State.ALLOW;
     }
 
     private void placeGrave(Location location) {
