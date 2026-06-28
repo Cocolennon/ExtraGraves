@@ -21,6 +21,7 @@ public class Helper {
     private static final NamespacedKey playerUUIDKey = new NamespacedKey(main, "playerUUID");
     private static final NamespacedKey inventoryKey = new NamespacedKey(main, "inventory");
     private static final NamespacedKey curiosKey = new NamespacedKey(main, "curios");
+    private static final NamespacedKey levelKey = new NamespacedKey(main, "level");
     private static final NamespacedKey experienceKey = new NamespacedKey(main, "experience");
     private static final NamespacedKey armorKey = new NamespacedKey(main, "armor");
     private static final NamespacedKey offHandKey = new NamespacedKey(main, "offhand");
@@ -76,12 +77,18 @@ public class Helper {
         new CustomBlockData(grave, main).set(curiosKey, DataType.ITEM_STACK_ARRAY, curios.toArray(ItemStack[]::new));
     }
 
-    public static int getExperience(Block grave) {
-        return new CustomBlockData(grave, main).get(experienceKey, DataType.INTEGER);
+    public static int getLevel(Block grave) {
+        return new CustomBlockData(grave, main).get(levelKey, DataType.INTEGER);
     }
 
-    public static void setExperience(Block grave, int experience) {
-        new CustomBlockData(grave, main).set(experienceKey, DataType.INTEGER, experience);
+    public static float getExperience(Block grave) {
+        return new CustomBlockData(grave, main).get(experienceKey, DataType.FLOAT);
+    }
+
+    public static void setExperience(Block grave, int level, float experience) {
+        PersistentDataContainer pdc = new CustomBlockData(grave, main);
+        pdc.set(levelKey, DataType.INTEGER, level);
+        pdc.set(experienceKey, DataType.FLOAT, experience);
     }
 
     public static List<ItemStack> getArmor(Block grave) {

@@ -29,7 +29,7 @@ public class GraveHelper {
         graveInventory.setItem(40, curiosItem);
         graveInventory.setItem(51, Helper.getOffHand(grave));
         ItemStack experienceItem = new ItemStackBuilder(Material.EXPERIENCE_BOTTLE, 1)
-                .displayName(miniMessage.deserialize("<#FFFF55>" + Helper.getExperience(grave) + " EXP"))
+                .displayName(miniMessage.deserialize("<#FFFF55>" + Helper.getLevel(grave) + " Levels"))
                 .setKeyValue(Helper.buttonActionKey, PersistentDataType.STRING, "experience").get();
         graveInventory.setItem(52, experienceItem);
         graveInventory.fillEmpty(36);
@@ -70,7 +70,7 @@ public class GraveHelper {
         Helper.setArmor(grave, armorItems.toArray(ItemStack[]::new));
         ItemStack offHand = graveInventory.getItem(51);
         Helper.setOffHand(grave, offHand == null ? new ItemStack(Material.AIR) : offHand);
-        if(graveInventory.getItem(52) == null) Helper.setExperience(grave, 0);
+        if(graveInventory.getItem(52) == null) Helper.setExperience(grave, 0, 0);
     }
 
     public static void saveCurios(Block grave, Inventory curiosInventory) {

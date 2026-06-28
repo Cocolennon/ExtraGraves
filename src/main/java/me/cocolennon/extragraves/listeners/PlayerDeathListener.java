@@ -42,7 +42,7 @@ public class PlayerDeathListener implements Listener {
         Block grave = location.getBlock();
         Helper.setPlayer(grave, player);
         populateCurios(grave, player);
-        Helper.setExperience(grave, player.getTotalExperience());
+        Helper.setExperience(grave, player.getLevel(), player.getExp());
         List<ItemStack> armorItems = new ArrayList<>();
         for(ItemStack armorItem : player.getInventory().getArmorContents()) {
             if(armorItem == null) continue;
