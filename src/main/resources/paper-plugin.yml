@@ -14,6 +14,10 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
+    WorldGuard:
+      load: BEFORE
+      required: true
+      join-classpath: true
 permissions:
   extragraves.grave-on-death:
     description: Allows players to have their stuff kept in a grave when dying
