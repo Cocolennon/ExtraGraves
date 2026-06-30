@@ -18,7 +18,6 @@ public class InventoryCloseListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
-        if(event.getReason().equals(InventoryCloseEvent.Reason.DISCONNECT)) return;
         if(!(inventory.getHolder() instanceof GraveInventoryHolder graveHolder)) return;
         Block grave =  graveHolder.getGrave();
         switch(graveHolder.getType()) {
@@ -30,7 +29,8 @@ public class InventoryCloseListener implements Listener {
         if(!Helper.getArmor(grave).isEmpty()) return;
         if(!Helper.getOffHand(grave).getType().equals(Material.AIR)) return;
         if(!Helper.getCurios(grave).isEmpty()) return;
-        if(Helper.getExperience(grave) != 0) return;
+        if(Helper.getLevel(grave) != 0) return;
+        if(Helper.getExperience(grave) != 0.0f) return;
         if(Main.getInstance().config().graveBlockName.startsWith("nexo-")) NexoBlocks.remove(grave.getLocation());
         else grave.setType(Material.AIR);
         Player player = (Player) event.getPlayer();

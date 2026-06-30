@@ -70,7 +70,8 @@ public class GraveHelper {
         Helper.setArmor(grave, armorItems.toArray(ItemStack[]::new));
         ItemStack offHand = graveInventory.getItem(51);
         Helper.setOffHand(grave, offHand == null ? new ItemStack(Material.AIR) : offHand);
-        if(graveInventory.getItem(52) == null) Helper.setExperience(grave, 0, 0);
+        ItemStack experienceItem = graveInventory.getItem(52);
+        if(experienceItem == null || experienceItem.getType().equals(Material.AIR)) Helper.setExperience(grave, 0, 0.0f);
     }
 
     public static void saveCurios(Block grave, Inventory curiosInventory) {
