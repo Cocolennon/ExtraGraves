@@ -1,8 +1,11 @@
 package me.cocolennon.extragraves.listeners;
 
+import com.nexomc.nexo.api.NexoBlocks;
+import me.cocolennon.extragraves.Main;
 import me.cocolennon.extragraves.util.GraveHelper;
 import me.cocolennon.extragraves.util.GraveInventoryHolder;
 import me.cocolennon.extragraves.util.Helper;
+import me.cocolennon.extragraves.util.Localization;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -40,6 +43,12 @@ public class InventoryClickListener implements Listener {
                 GraveHelper.saveCurios(grave, clicked);
                 GraveHelper.openGrave(player, grave);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            }
+            case "destroy" -> {
+                if(Main.getInstance().config().graveBlockName.startsWith("nexo-")) NexoBlocks.remove(grave.getLocation());
+                else grave.setType(Material.AIR);
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+                player.sendMessage(Localization.get(player, "grave-destroyed", true));
             }
         }
     }

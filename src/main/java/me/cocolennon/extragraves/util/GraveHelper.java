@@ -27,6 +27,10 @@ public class GraveHelper {
                 .displayName(miniMessage.deserialize("<#FFFF55>Baubles"))
                 .setKeyValue(Helper.buttonActionKey, PersistentDataType.STRING, "openCurios").get();
         graveInventory.setItem(40, curiosItem);
+        ItemStack destroyItem = new ItemStackBuilder(Material.STONE_PICKAXE, 1)
+                .displayName(Localization.get(player, "destroy-grave", false))
+                .setKeyValue(Helper.buttonActionKey, PersistentDataType.STRING, "destroy").get();
+        graveInventory.setItem(45, destroyItem);
         graveInventory.setItem(51, Helper.getOffHand(grave));
         ItemStack experienceItem = new ItemStackBuilder(Material.EXPERIENCE_BOTTLE, 1)
                 .displayName(miniMessage.deserialize("<#FFFF55>" + Helper.getLevel(grave) + " Levels"))
