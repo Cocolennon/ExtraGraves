@@ -1,7 +1,7 @@
 name: ExtraGraves
 description: Vanilla Graves with support for CuriosPaper and more!
 main: me.cocolennon.extragraves.Main
-version: 1.0.2
+version: 1.0.3
 author: Cocolennon
 api-version: '1.21.11'
 dependencies:
