@@ -17,7 +17,7 @@ import java.util.*;
 public class Helper {
     private static final Main main = Main.getInstance();
     public static final NamespacedKey buttonActionKey = new NamespacedKey(main, "buttonAction");
-    private static final NamespacedKey graveBusyKey = new NamespacedKey(main, "graveBusy");
+    private static final NamespacedKey graveBusyKey = new NamespacedKey(main, "graveBusyPlayer");
     private static final NamespacedKey playerUUIDKey = new NamespacedKey(main, "playerUUID");
     private static final NamespacedKey inventoryKey = new NamespacedKey(main, "inventory");
     private static final NamespacedKey curiosKey = new NamespacedKey(main, "curios");
@@ -42,11 +42,15 @@ public class Helper {
 
     public static boolean isGraveBusy(Block grave) {
         PersistentDataContainer pdc = new CustomBlockData(grave, main);
-        return pdc.has(graveBusyKey) ? pdc.get(graveBusyKey,  PersistentDataType.BOOLEAN) : false;
+        if(!pdc.has(graveBusyKey)) return false;
+        Player player = Bukkit.getPlayer(pdc.get(graveBusyKey, DataType.UUID));
+        if(player == null) return false;
+        if(!(player.getOpenInventory().getTopInventory().getHolder() instanceof GraveInventoryHolder graveHolder)) return false;
+        return graveHolder.getGrave().equals(grave);
     }
 
-    public static void setGraveBusy(Block grave, boolean value) {
-        new CustomBlockData(grave, main).set(graveBusyKey, PersistentDataType.BOOLEAN, value);
+    public static void setGraveBusy(Block grave, UUID uuid) {
+        new CustomBlockData(grave, main).set(graveBusyKey, DataType.UUID, uuid);
     }
 
     public static Player getPlayer(Block grave) {

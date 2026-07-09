@@ -26,7 +26,7 @@ public class PlayerInteractListener implements Listener {
             player.sendMessage(Localization.get(player, "grave-busy", true));
             return;
         }
-        Helper.setGraveBusy(block, true);
+        Helper.setGraveBusy(block, player.getUniqueId());
         GraveHelper.openGrave(player, block);
         player.playSound(player.getLocation(), Sound.BLOCK_BARREL_OPEN, 1.0f, 1.0f);
     }

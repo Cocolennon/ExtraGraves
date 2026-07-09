@@ -14,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.util.UUID;
+
 public class InventoryCloseListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
@@ -24,7 +26,7 @@ public class InventoryCloseListener implements Listener {
             case INVENTORY -> GraveHelper.saveGrave(grave, inventory);
             case CURIOS -> GraveHelper.saveCurios(grave, inventory);
         }
-        Helper.setGraveBusy(grave, false);
+        Helper.setGraveBusy(grave, new UUID(0L, 0L));
         if(!Helper.getInventory(grave).isEmpty()) return;
         if(!Helper.getArmor(grave).isEmpty()) return;
         if(!Helper.getOffHand(grave).getType().equals(Material.AIR)) return;
