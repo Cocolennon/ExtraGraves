@@ -27,6 +27,7 @@ public class PlayerDeathListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
+        if(player.hasMetadata("NPC")) return;
         if(!player.hasPermission("extragraves.grave-on-death")) return;
         Location deathLocation = player.getLocation();
         if(checkKeepInventoryRegion(deathLocation)) return;
