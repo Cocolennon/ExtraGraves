@@ -103,11 +103,11 @@ public class GraveHelper {
         }
         for(int armorSlot = 46; armorSlot <= 49; armorSlot++ ) {
             ItemStack item = graveInventory.getItem(armorSlot);
-            if(item == null) continue;
+            if(item == null || Helper.getButtonAction(item).equals("filler")) continue;
             world.dropItemNaturally(location, item);
         }
         ItemStack offhand = graveInventory.getItem(51);
-        if(offhand != null) world.dropItemNaturally(location, offhand);
+        if(offhand != null && !Helper.getButtonAction(offhand).equals("filler")) world.dropItemNaturally(location, offhand);
         int totalXp = getExpToLevel(Helper.getLevel(grave));
         while(totalXp > 0) {
             int split = Math.min(totalXp, 500);
