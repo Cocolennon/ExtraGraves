@@ -1,8 +1,12 @@
 package me.cocolennon.extragraves.util;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -87,5 +91,39 @@ public class GraveHelper {
             curiosItems.add(item);
         }
         Helper.setCurios(grave, curiosItems);
+    }
+
+    public static void dropGrave(Block grave, Inventory graveInventory) {
+        World world = grave.getWorld();
+        Location location = grave.getLocation();
+        for(int invSlot = 0; invSlot <= 35; invSlot++ ) {
+            ItemStack item = graveInventory.getItem(invSlot);
+            if(item == null) continue;
+            world.dropItemNaturally(location, item);
+        }
+        for(int armorSlot = 46; armorSlot <= 49; armorSlot++ ) {
+            ItemStack item = graveInventory.getItem(armorSlot);
+            if(item == null) continue;
+            world.dropItemNaturally(location, item);
+        }
+        ItemStack offhand = graveInventory.getItem(51);
+        if(offhand != null) world.dropItemNaturally(location, offhand);
+        int totalXp = getExpToLevel(Helper.getLevel(grave));
+        while(totalXp > 0) {
+            int split = Math.min(totalXp, 500);
+            ExperienceOrb orb = (ExperienceOrb) world.spawnEntity(location, EntityType.EXPERIENCE_ORB);
+            orb.setExperience(split);
+            totalXp -= split;
+        }
+        for(ItemStack curiosItem : Helper.getCurios(grave)) {
+            if(curiosItem == null) continue;
+            world.dropItemNaturally(location, curiosItem);
+        }
+    }
+
+    private static int getExpToLevel(int level) {
+        if (level <= 15) return level * level + 6 * level;
+        if (level <= 30) return (int) (2.5 * level * level - 40.5 * level + 360);
+        return (int) (4.5 * level * level - 162.5 * level + 2220);
     }
 }
