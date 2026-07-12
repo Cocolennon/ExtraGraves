@@ -12,7 +12,9 @@ import org.bg52.curiospaper.CuriosPaper;
 import org.bg52.curiospaper.api.CuriosPaperAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,11 +33,12 @@ public class PlayerDeathListener implements Listener {
         if(!player.hasPermission("extragraves.grave-on-death")) return;
         Location deathLocation = player.getLocation();
         if(checkKeepInventoryRegion(deathLocation)) return;
-        placeGrave(deathLocation);
-        populateGrave(deathLocation, player);
+        Location graveLocation = findFreeGraveLocation(deathLocation, 5);
+        placeGrave(graveLocation);
+        populateGrave(graveLocation, player);
         event.getDrops().clear();
         event.setDroppedExp(0);
-        if(Main.getInstance().config().sendCoordinates) player.sendMessage(Localization.get(player, "death", true, (int) deathLocation.getX(), (int) deathLocation.getY(), (int) deathLocation.getZ()));
+        if(Main.getInstance().config().sendCoordinates) player.sendMessage(Localization.get(player, "death", true, (int) graveLocation.getX(), (int) graveLocation.getY(), (int) graveLocation.getZ()));
     }
 
     private boolean checkKeepInventoryRegion(Location location) {
@@ -48,6 +51,31 @@ public class PlayerDeathListener implements Listener {
         String graveBlockName = Main.getInstance().config().graveBlockName;
         if(graveBlockName.startsWith("nexo-")) NexoBlocks.place(graveBlockName.replace("nexo-", ""), location);
         else location.getBlock().setType(Material.matchMaterial(graveBlockName));
+    }
+
+    public Location findFreeGraveLocation(Location center, int maxRadius) {
+        World world = center.getWorld();
+        int cx = center.getBlockX();
+        int cy = center.getBlockY();
+        int cz = center.getBlockZ();
+        for (int r = 0; r <= maxRadius; r++) {
+            for (int dx = -r; dx <= r; dx++) {
+                for (int dz = -r; dz <= r; dz++) {
+                    if (Math.max(Math.abs(dx), Math.abs(dz)) != r) continue;
+                    for (int dy = -2; dy <= 2; dy++) {
+                        Block block = world.getBlockAt(cx + dx, cy + dy, cz + dz);
+                        if (isSafeForGrave(block)) return block.getLocation();
+                    }
+                }
+            }
+        }
+        return center;
+    }
+
+    private boolean isSafeForGrave(Block block) {
+        Material type = block.getType();
+        if(!block.isEmpty() && !type.isAir() && !block.isReplaceable()) return false;
+        return !(block.getState() instanceof TileState);
     }
 
     private void populateGrave(Location location, Player player) {
