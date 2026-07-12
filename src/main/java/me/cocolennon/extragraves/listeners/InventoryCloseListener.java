@@ -1,6 +1,7 @@
 package me.cocolennon.extragraves.listeners;
 
 import com.nexomc.nexo.api.NexoBlocks;
+import com.nexomc.nexo.utils.drops.Drop;
 import me.cocolennon.extragraves.Main;
 import me.cocolennon.extragraves.util.GraveHelper;
 import me.cocolennon.extragraves.util.GraveInventoryHolder;
@@ -33,7 +34,7 @@ public class InventoryCloseListener implements Listener {
         if(!Helper.getCurios(grave).isEmpty()) return;
         if(Helper.getLevel(grave) != 0) return;
         if(Helper.getExperience(grave) != 0.0f) return;
-        if(Main.getInstance().config().graveBlockName.startsWith("nexo-")) NexoBlocks.remove(grave.getLocation());
+        if(Main.getInstance().config().graveBlockName.startsWith("nexo-")) NexoBlocks.remove(grave.getLocation(), null, Drop.emptyDrop());
         else grave.setType(Material.AIR);
         Player player = (Player) event.getPlayer();
         player.sendMessage(Localization.get(player, "grave-deleted", true));
