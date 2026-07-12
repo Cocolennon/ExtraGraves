@@ -58,13 +58,13 @@ public class PlayerDeathListener implements Listener {
         int cx = center.getBlockX();
         int cy = center.getBlockY();
         int cz = center.getBlockZ();
-        for (int r = 0; r <= maxRadius; r++) {
-            for (int dx = -r; dx <= r; dx++) {
-                for (int dz = -r; dz <= r; dz++) {
-                    if (Math.max(Math.abs(dx), Math.abs(dz)) != r) continue;
-                    for (int dy = -2; dy <= 2; dy++) {
+        for(int r = 0; r <= maxRadius; r++) {
+            for(int dx = -r; dx <= r; dx++) {
+                for(int dz = -r; dz <= r; dz++) {
+                    if(Math.max(Math.abs(dx), Math.abs(dz)) != r) continue;
+                    for(int dy = -2; dy <= 2; dy++) {
                         Block block = world.getBlockAt(cx + dx, cy + dy, cz + dz);
-                        if (isSafeForGrave(block)) return block.getLocation();
+                        if(isSafeForGrave(block)) return block.getLocation();
                     }
                 }
             }
