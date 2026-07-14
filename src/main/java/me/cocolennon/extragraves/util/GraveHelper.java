@@ -87,7 +87,7 @@ public class GraveHelper {
         for(int invSlot = 10; invSlot <= 16; invSlot++ ) {
             if(invSlot == 13) continue;
             ItemStack item = curiosInventory.getItem(invSlot);
-            if(item == null) continue;
+            if(item == null || Helper.getButtonAction(item).equals("filler")) continue;
             curiosItems.add(item);
         }
         Helper.setCurios(grave, curiosItems);
@@ -98,7 +98,7 @@ public class GraveHelper {
         Location location = grave.getLocation();
         for(int invSlot = 0; invSlot <= 35; invSlot++ ) {
             ItemStack item = graveInventory.getItem(invSlot);
-            if(item == null) continue;
+            if(item == null || Helper.getButtonAction(item).equals("filler")) continue;
             world.dropItemNaturally(location, item);
         }
         for(int armorSlot = 46; armorSlot <= 49; armorSlot++ ) {
