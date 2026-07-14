@@ -3,6 +3,8 @@ package me.cocolennon.extragraves;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import me.cocolennon.extragraves.commands.GravesCommand;
 import me.cocolennon.extragraves.listeners.*;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -35,11 +37,16 @@ public class Main extends JavaPlugin {
     }
 
     private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), instance);
-        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), instance);
-        getServer().getPluginManager().registerEvents(new InventoryClickListener(), instance);
-        getServer().getPluginManager().registerEvents(new InventoryCloseListener(), instance);
-        getServer().getPluginManager().registerEvents(new BlockBreakListener(), instance);
+        registerListener(new PlayerDeathListener(), instance);
+        registerListener(new PlayerInteractListener(), instance);
+        registerListener(new InventoryClickListener(), instance);
+        registerListener(new InventoryCloseListener(), instance);
+        registerListener(new BlockBreakListener(), instance);
+        registerListener(new BlockExplodeListener(), instance);
+    }
+
+    private void registerListener(Listener listener, Plugin plugin) {
+        getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
     @Override
