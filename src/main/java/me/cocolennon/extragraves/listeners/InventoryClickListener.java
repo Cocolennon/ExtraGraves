@@ -39,6 +39,7 @@ public class InventoryClickListener implements Listener {
                 float experience = Helper.getExperience(grave);
                 player.setLevel(player.getLevel() + Helper.getLevel(grave));
                 if(experience > 0.0) player.setExp(experience);
+                Helper.setExperience(grave, 0, 0.0f);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
             }
             case "backToGrave" -> {
