@@ -48,7 +48,8 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
             }
             case "destroy" -> {
-                GraveHelper.dropGrave(grave, clicked);
+                GraveHelper.saveGrave(grave, clicked);
+                GraveHelper.dropGrave(grave);
                 if(Main.getInstance().config().graveBlockName.startsWith("nexo-")) NexoBlocks.remove(grave.getLocation(), null, Drop.emptyDrop());
                 else grave.setType(Material.AIR);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);

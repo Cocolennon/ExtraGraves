@@ -93,21 +93,13 @@ public class GraveHelper {
         Helper.setCurios(grave, curiosItems);
     }
 
-    public static void dropGrave(Block grave, Inventory graveInventory) {
+    public static void dropGrave(Block grave) {
         World world = grave.getWorld();
         Location location = grave.getLocation();
-        for(int invSlot = 0; invSlot <= 35; invSlot++ ) {
-            ItemStack item = graveInventory.getItem(invSlot);
-            if(item == null || Helper.getButtonAction(item).equals("filler")) continue;
-            world.dropItemNaturally(location, item);
-        }
-        for(int armorSlot = 46; armorSlot <= 49; armorSlot++ ) {
-            ItemStack item = graveInventory.getItem(armorSlot);
-            if(item == null || Helper.getButtonAction(item).equals("filler")) continue;
-            world.dropItemNaturally(location, item);
-        }
-        ItemStack offhand = graveInventory.getItem(51);
-        if(offhand != null && !Helper.getButtonAction(offhand).equals("filler")) world.dropItemNaturally(location, offhand);
+        for(ItemStack inventoryItem : Helper.getInventory(grave)) if(inventoryItem != null) world.dropItemNaturally(location, inventoryItem);
+        for(ItemStack armorItem : Helper.getArmor(grave)) if(armorItem != null) world.dropItemNaturally(location, armorItem);
+        ItemStack offhand = Helper.getOffHand(grave);
+        if(offhand != null) world.dropItemNaturally(location, offhand);
         int totalXp = getExpToLevel(Helper.getLevel(grave));
         while(totalXp > 0) {
             int split = Math.min(totalXp, 500);
