@@ -17,7 +17,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InventoryClickListener implements Listener {
+    List<Block> destroyingGraves = new ArrayList<>();
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Inventory clicked = event.getClickedInventory();
@@ -48,12 +53,16 @@ public class InventoryClickListener implements Listener {
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
             }
             case "destroy" -> {
+                if(destroyingGraves.contains(grave)) return;
+                destroyingGraves.add(grave);
                 GraveHelper.saveGrave(grave, clicked);
+                player.closeInventory();
                 GraveHelper.dropGrave(grave);
                 if(Main.getInstance().config().graveBlockName.startsWith("nexo-")) NexoBlocks.remove(grave.getLocation(), null, Drop.emptyDrop());
                 else grave.setType(Material.AIR);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
                 player.sendMessage(Localization.get(player, "grave-destroyed", true));
+                destroyingGraves.remove(grave);
             }
         }
     }
