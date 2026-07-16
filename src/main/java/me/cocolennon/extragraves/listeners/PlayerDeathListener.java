@@ -32,6 +32,11 @@ public class PlayerDeathListener implements Listener {
         if(player.hasMetadata("NPC")) return;
         if(!player.hasPermission("extragraves.grave-on-death")) return;
         Location deathLocation = player.getLocation();
+        World.Environment environment = deathLocation.getWorld().getEnvironment();
+        if(environment == World.Environment.NETHER || environment == World.Environment.THE_END) {
+            player.sendMessage(Localization.get(player, "death" + environment.getId(), true));
+            return;
+        }
         if(checkKeepInventoryRegion(deathLocation)) return;
         Location graveLocation = findFreeGraveLocation(deathLocation, 5);
         placeGrave(graveLocation);
