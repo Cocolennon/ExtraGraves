@@ -58,6 +58,10 @@ public class PlayerDeathListener implements Listener {
         int cx = center.getBlockX();
         int cy = center.getBlockY();
         int cz = center.getBlockZ();
+        if (center.getBlock().getType() == Material.LAVA) {
+            Location aboveLava = findSpotAboveLava(world, cx, cy, cz, maxRadius);
+            if (aboveLava != null) return aboveLava;
+        }
         for(int r = 0; r <= maxRadius; r++) {
             for(int dx = -r; dx <= r; dx++) {
                 for(int dz = -r; dz <= r; dz++) {
@@ -70,6 +74,22 @@ public class PlayerDeathListener implements Listener {
             }
         }
         return center;
+    }
+
+    private Location findSpotAboveLava(World world, int cx, int cy, int cz, int maxRadius) {
+        for(int r = 0; r <= maxRadius; r++) {
+            for(int dx = -r; dx <= r; dx++) {
+                for(int dz = -r; dz <= r; dz++) {
+                    if(Math.max(Math.abs(dx), Math.abs(dz)) != r) continue;
+                    int x = cx + dx, z = cz + dz;
+                    for(int y = cy; y <= cy + 4; y++) {
+                        Block block = world.getBlockAt(x, y, z);
+                        if(block.getType() != Material.LAVA) if(isSafeForGrave(block)) return block.getLocation();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private boolean isSafeForGrave(Block block) {
