@@ -72,12 +72,12 @@ public class GraveHelper {
         List<ItemStack> armorItems = new ArrayList<>();
         for(int armorSlot = 46; armorSlot <= 49; armorSlot++ ) {
             ItemStack item = graveInventory.getItem(armorSlot);
-            if(item == null) continue;
+            if(item == null || Helper.getButtonAction(item).equals("filler")) continue;
             armorItems.add(item);
         }
         Helper.setArmor(grave, armorItems.toArray(ItemStack[]::new));
         ItemStack offHand = graveInventory.getItem(51);
-        Helper.setOffHand(grave, offHand == null ? new ItemStack(Material.AIR) : offHand);
+        Helper.setOffHand(grave, (offHand == null || Helper.getButtonAction(offHand).equals("filler")) ? new ItemStack(Material.AIR) : offHand);
         ItemStack experienceItem = graveInventory.getItem(52);
         if(experienceItem == null || experienceItem.getType().equals(Material.AIR)) Helper.setExperience(grave, 0, 0.0f);
     }
