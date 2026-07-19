@@ -1,5 +1,6 @@
 package me.cocolennon.extragraves.listeners;
 
+import me.cocolennon.extragraves.util.GraveHelper;
 import me.cocolennon.extragraves.util.Helper;
 import me.cocolennon.extragraves.util.Localization;
 import org.bukkit.block.Block;
@@ -13,9 +14,10 @@ public class BlockBreakListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         if(!Helper.isGrave(block)) return;
+        event.setDropItems(false);
+        GraveHelper.dropGrave(block);
         Player player = event.getPlayer();
-        if(player.hasPermission("extragraves.break-graves")) return;
-        player.sendMessage(Localization.get(player, "grave-break", true));
+        player.sendMessage(Localization.get(player, "grave-destroyed", true));
         event.setCancelled(true);
     }
 }
