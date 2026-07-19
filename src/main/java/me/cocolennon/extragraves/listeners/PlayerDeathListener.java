@@ -43,6 +43,8 @@ public class PlayerDeathListener implements Listener {
         populateGrave(graveLocation, player);
         event.getDrops().clear();
         event.setDroppedExp(0);
+        event.setNewLevel(0);
+        event.setNewExp(0);
         if(Main.getInstance().config().sendCoordinates) player.sendMessage(Localization.get(player, "death", true, (int) graveLocation.getX(), (int) graveLocation.getY(), (int) graveLocation.getZ()));
     }
 
