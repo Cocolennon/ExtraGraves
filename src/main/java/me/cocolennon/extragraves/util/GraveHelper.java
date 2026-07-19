@@ -101,12 +101,8 @@ public class GraveHelper {
         ItemStack offhand = Helper.getOffHand(grave);
         if(offhand != null) world.dropItemNaturally(location, offhand);
         int totalXp = getExpToLevel(Helper.getLevel(grave));
-        while(totalXp > 0) {
-            int split = Math.min(totalXp, 500);
-            ExperienceOrb orb = (ExperienceOrb) world.spawnEntity(location, EntityType.EXPERIENCE_ORB);
-            orb.setExperience(split);
-            totalXp -= split;
-        }
+        ExperienceOrb orb = (ExperienceOrb) world.spawnEntity(location, EntityType.EXPERIENCE_ORB);
+        orb.setExperience(totalXp);
         for(ItemStack curiosItem : Helper.getCurios(grave)) {
             if(curiosItem == null) continue;
             world.dropItemNaturally(location, curiosItem);
