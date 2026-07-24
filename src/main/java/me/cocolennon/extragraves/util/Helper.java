@@ -32,7 +32,9 @@ public class Helper {
     }
 
     public static String getButtonAction(ItemStack item) {
-        return item.getItemMeta().getPersistentDataContainer().get(buttonActionKey, PersistentDataType.STRING);
+        if(!item.hasItemMeta()) return "";
+        PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
+        return pdc.has(buttonActionKey) ? pdc.get(buttonActionKey, PersistentDataType.STRING) : "";
     }
 
     public static boolean isGrave(Block block) {
