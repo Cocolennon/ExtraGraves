@@ -6,6 +6,7 @@ import com.nexomc.nexo.api.NexoBlocks;
 import me.cocolennon.extragraves.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -53,9 +54,9 @@ public class Helper {
         new CustomBlockData(grave, main).set(graveBusyKey, DataType.UUID, uuid);
     }
 
-    public static Player getPlayer(Block grave) {
+    public static OfflinePlayer getPlayer(Block grave) {
         UUID uuid = new CustomBlockData(grave, main).get(playerUUIDKey, DataType.UUID);
-        return Bukkit.getPlayer(uuid);
+        return Bukkit.getOfflinePlayer(uuid);
     }
 
     public static void setPlayer(Block grave, Player player) {

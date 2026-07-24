@@ -3,6 +3,7 @@ package me.cocolennon.extragraves.util;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -19,7 +20,7 @@ public class GraveHelper {
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public static void openGrave(Player player, Block grave) {
-        Player graveOwner = Helper.getPlayer(grave);
+        OfflinePlayer graveOwner = Helper.getPlayer(grave);
         GraveInventoryHolder graveInventory = new GraveInventoryHolder(54, Localization.get(player, "menu-title", false, graveOwner.getName()), grave, GraveMenuType.INVENTORY);
         for(ItemStack inventoryItem : Helper.getInventory(grave)) graveInventory.addItem(inventoryItem);
         int armorSlot = 46;
@@ -45,7 +46,7 @@ public class GraveHelper {
     }
 
     public static void openCurios(Player player, Block grave) {
-        Player graveOwner = Helper.getPlayer(grave);
+        OfflinePlayer graveOwner = Helper.getPlayer(grave);
         GraveInventoryHolder curiosInventory = new GraveInventoryHolder(27, Localization.get(player, "curios-title", false, graveOwner.getName()), grave, GraveMenuType.CURIOS);
         int curiosSlot = 10;
         for(ItemStack curiosItem : Helper.getCurios(grave)) {
