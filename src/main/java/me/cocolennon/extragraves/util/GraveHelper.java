@@ -108,6 +108,7 @@ public class GraveHelper {
             if(curiosItem == null) continue;
             world.dropItemNaturally(location, curiosItem);
         }
+        Helper.deleteGrave(grave);
     }
 
     private static int getExpToLevel(int level) {

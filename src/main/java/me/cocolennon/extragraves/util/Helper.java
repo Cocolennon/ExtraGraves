@@ -114,4 +114,16 @@ public class Helper {
     public static void setOffHand(Block grave, ItemStack offHand) {
         new CustomBlockData(grave, main).set(offHandKey, DataType.ITEM_STACK, offHand);
     }
+
+    public static void deleteGrave(Block grave) {
+        PersistentDataContainer pdc = new CustomBlockData(grave, main);
+        pdc.remove(graveBusyKey);
+        pdc.remove(playerUUIDKey);
+        pdc.remove(inventoryKey);
+        pdc.remove(curiosKey);
+        pdc.remove(levelKey);
+        pdc.remove(experienceKey);
+        pdc.remove(armorKey);
+        pdc.remove(offHandKey);
+    }
 }
