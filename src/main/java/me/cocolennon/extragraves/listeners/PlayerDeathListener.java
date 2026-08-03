@@ -69,6 +69,7 @@ public class PlayerDeathListener implements Listener {
             Location aboveLava = findSpotAboveLava(world, cx, cy, cz, maxRadius);
             if (aboveLava != null) return aboveLava;
         }
+        if(isSafeForGrave(center.getBlock())) return center;
         for(int r = 0; r <= maxRadius; r++) {
             for(int dx = -r; dx <= r; dx++) {
                 for(int dz = -r; dz <= r; dz++) {
