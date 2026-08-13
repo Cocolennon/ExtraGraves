@@ -6,6 +6,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import dev.tins.worldguardextraflagsplus.flags.Flags;
 import me.cocolennon.extragraves.Main;
+import me.cocolennon.extragraves.util.GraveHelper;
 import me.cocolennon.extragraves.util.Helper;
 import me.cocolennon.extragraves.util.Localization;
 import me.cocolennon.extragraves.util.PlayerData;
@@ -150,7 +151,8 @@ public class PlayerDeathListener implements Listener {
         if(PlayerData.getGraveCount(player) < 4) return;
         long oldestTimestamp = PlayerData.getOldestGrave(player);
         Location location = PlayerData.getGraveLocation(player, oldestTimestamp);
-        Helper.deleteGrave(location.getBlock());
+        if(!location.isChunkLoaded()) location.getWorld().loadChunk(location.getChunk());
+        GraveHelper.dropGrave(location.getBlock());
         PlayerData.removeGrave(player, oldestTimestamp);
     }
 }
