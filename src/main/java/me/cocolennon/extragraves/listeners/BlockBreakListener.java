@@ -27,3 +27,6 @@ public class BlockBreakListener implements Listener {
         event.setCancelled(true);
     }
 }
+
+// mort: grave spawn + ajouté à un playerdata (location + timestamp)
+// quand il y en a 4, supprimer la plus ancienne

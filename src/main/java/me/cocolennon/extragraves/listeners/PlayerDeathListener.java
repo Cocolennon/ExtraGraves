@@ -8,6 +8,7 @@ import dev.tins.worldguardextraflagsplus.flags.Flags;
 import me.cocolennon.extragraves.Main;
 import me.cocolennon.extragraves.util.Helper;
 import me.cocolennon.extragraves.util.Localization;
+import me.cocolennon.extragraves.util.PlayerData;
 import org.bg52.curiospaper.CuriosPaper;
 import org.bg52.curiospaper.api.CuriosPaperAPI;
 import org.bukkit.Location;
@@ -40,6 +41,8 @@ public class PlayerDeathListener implements Listener {
         if(checkKeepInventoryRegion(deathLocation)) return;
         Location graveLocation = findFreeGraveLocation(deathLocation, 5);
         placeGrave(graveLocation);
+        PlayerData.addGrave(player, graveLocation);
+        checkDeleteGrave(player);
         populateGrave(graveLocation, player);
         event.getDrops().clear();
         event.setDroppedExp(0);
@@ -141,5 +144,13 @@ public class PlayerDeathListener implements Listener {
             curios.clearEquippedItems(player, slot);
         }
         Helper.setCurios(grave, curiosItems);
+    }
+
+    private void checkDeleteGrave(Player player) {
+        if(PlayerData.getGraveCount(player) < 4) return;
+        long oldestTimestamp = PlayerData.getOldestGrave(player);
+        Location location = PlayerData.getGraveLocation(player, oldestTimestamp);
+        Helper.deleteGrave(location.getBlock());
+        PlayerData.removeGrave(player, oldestTimestamp);
     }
 }
