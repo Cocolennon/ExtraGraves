@@ -41,13 +41,13 @@ public class PlayerDeathListener implements Listener {
         if(checkKeepInventoryRegion(deathLocation)) return;
         Location graveLocation = findFreeGraveLocation(deathLocation, 5);
         placeGrave(graveLocation);
-        PlayerData.addGraveAndCheckDeletion(player, graveLocation);
         populateGrave(graveLocation, player);
         event.getDrops().clear();
         event.setDroppedExp(0);
         event.setNewLevel(0);
         event.setNewExp(0);
         if(Main.getInstance().config().sendCoordinates) player.sendMessage(Localization.get(player, "death", true, (int) graveLocation.getX(), (int) graveLocation.getY(), (int) graveLocation.getZ()));
+        if(PlayerData.addGraveAndCheckDeletion(player, graveLocation)) player.sendMessage(Localization.get(player, "oldest-grave-deleted", true));
     }
 
     private boolean checkKeepInventoryRegion(Location location) {

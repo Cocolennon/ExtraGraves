@@ -29,7 +29,7 @@ public class PlayerData {
         }
     }
 
-    public static void addGraveAndCheckDeletion(Player player, Location location) {
+    public static boolean addGraveAndCheckDeletion(Player player, Location location) {
         YamlConfiguration playerData = getPlayerData(player);
         long timestamp = System.currentTimeMillis();
         String gravePath = "grave." + timestamp + ".";
@@ -37,14 +37,17 @@ public class PlayerData {
         playerData.set(gravePath + "x", location.getBlockX());
         playerData.set(gravePath + "y", location.getBlockY());
         playerData.set(gravePath + "z", location.getBlockZ());
+        boolean deleted = false;
         if(PlayerData.getGraveCount(playerData) >= 4) {
             long oldestTimestamp = PlayerData.getOldestGrave(playerData);
             Location oldestLocation  = PlayerData.getGraveLocation(oldestTimestamp, playerData);
             if(!oldestLocation.isChunkLoaded()) oldestLocation.getWorld().loadChunk(oldestLocation.getChunk());
             GraveHelper.dropGrave(oldestLocation.getBlock());
             PlayerData.removeGrave(player, playerData, oldestTimestamp);
+            deleted = true;
         }
         savePlayerData(player, playerData);
+        return deleted;
     }
 
     public static long getOldestGrave(YamlConfiguration playerData) {

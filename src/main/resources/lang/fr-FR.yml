@@ -10,6 +10,7 @@ death-1: "<#AA00AA>Vous êtes <#C20000>mort <#AA00AA>dans <#C20000>Le Nether<#AA
 death1: "<#AA00AA>Vous êtes <#C20000>mort <#AA00AA>dans <#FF55FF>Le Néant<#AA00AA>, là où les tombes n'ont pas de sens."
 grave-busy: "<#AA00AA>Cette tombe est <#C20000>actuellement ouverte <#AA00AA>par quelqu'un d'autre !"
 grave-deleted: "<#AA00AA>Cette tombe a été supprimée car elle est maintenant vide."
+oldest-grave-deleted: "<#AA00AA>Vous avez plus de 3 tombes. Votre tombe la plus ancienne a été détruite."
 grave-break: "<#AA00AA>Veuillez ne pas profaner les tombes !"
 destroy-grave: "<red>Détruire la tombe"
 grave-destroyed: "<red>Tombe détruite avec succès"
