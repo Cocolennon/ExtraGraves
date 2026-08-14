@@ -29,7 +29,7 @@ public class PlayerData {
         }
     }
 
-    public static void addGrave(Player player, Location location) {
+    public static void addGraveAndCheckDeletion(Player player, Location location) {
         YamlConfiguration playerData = getPlayerData(player);
         long timestamp = System.currentTimeMillis();
         String gravePath = "grave." + timestamp + ".";
@@ -37,11 +37,17 @@ public class PlayerData {
         playerData.set(gravePath + "x", location.getBlockX());
         playerData.set(gravePath + "y", location.getBlockY());
         playerData.set(gravePath + "z", location.getBlockZ());
+        if(PlayerData.getGraveCount(playerData) >= 4) {
+            long oldestTimestamp = PlayerData.getOldestGrave(playerData);
+            Location oldestLocation  = PlayerData.getGraveLocation(oldestTimestamp, playerData);
+            if(!oldestLocation.isChunkLoaded()) oldestLocation.getWorld().loadChunk(oldestLocation.getChunk());
+            GraveHelper.dropGrave(oldestLocation.getBlock());
+            PlayerData.removeGrave(player, playerData, oldestTimestamp);
+        }
         savePlayerData(player, playerData);
     }
 
-    public static long getOldestGrave(Player player) {
-        YamlConfiguration playerData = getPlayerData(player);
+    public static long getOldestGrave(YamlConfiguration playerData) {
         ConfigurationSection graves = playerData.getConfigurationSection("grave");
         if(graves == null) return -1;
         long oldest = Long.MAX_VALUE;
@@ -52,22 +58,20 @@ public class PlayerData {
         return oldest == Long.MAX_VALUE ? -1 : oldest;
     }
 
-    public static Location getGraveLocation(Player player, long timestamp) {
-        YamlConfiguration playerData = getPlayerData(player);
+    public static Location getGraveLocation(long timestamp,  YamlConfiguration playerData) {
         ConfigurationSection graves = playerData.getConfigurationSection("grave");
-        String gravePath =  "grave." + timestamp + ".";
-        World world = Main.getInstance().getServer().getWorld(graves.getString("world"));
+        String gravePath =  timestamp + ".";
+        String worldName = graves.getString(gravePath + "world");
+        World world = Main.getInstance().getServer().getWorld(worldName);
         return new Location(world, graves.getDouble(gravePath + "x"), graves.getDouble(gravePath + "y"), graves.getDouble(gravePath + "z"));
     }
 
-    public static int getGraveCount(Player player) {
-        YamlConfiguration playerData = getPlayerData(player);
+    public static int getGraveCount(YamlConfiguration playerData) {
         ConfigurationSection graves = playerData.getConfigurationSection("grave");
         return graves == null ? 0 : graves.getKeys(false).size();
     }
 
-    public static void removeGrave(Player player, long timestamp) {
-        YamlConfiguration playerData = getPlayerData(player);
+    public static void removeGrave(Player player, YamlConfiguration playerData, long timestamp) {
         ConfigurationSection graves = playerData.getConfigurationSection("grave");
         graves.set(Long.toString(timestamp), null);
         savePlayerData(player, playerData);

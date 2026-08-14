@@ -6,7 +6,6 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import dev.tins.worldguardextraflagsplus.flags.Flags;
 import me.cocolennon.extragraves.Main;
-import me.cocolennon.extragraves.util.GraveHelper;
 import me.cocolennon.extragraves.util.Helper;
 import me.cocolennon.extragraves.util.Localization;
 import me.cocolennon.extragraves.util.PlayerData;
@@ -42,8 +41,7 @@ public class PlayerDeathListener implements Listener {
         if(checkKeepInventoryRegion(deathLocation)) return;
         Location graveLocation = findFreeGraveLocation(deathLocation, 5);
         placeGrave(graveLocation);
-        PlayerData.addGrave(player, graveLocation);
-        checkDeleteGrave(player);
+        PlayerData.addGraveAndCheckDeletion(player, graveLocation);
         populateGrave(graveLocation, player);
         event.getDrops().clear();
         event.setDroppedExp(0);
@@ -145,14 +143,5 @@ public class PlayerDeathListener implements Listener {
             curios.clearEquippedItems(player, slot);
         }
         Helper.setCurios(grave, curiosItems);
-    }
-
-    private void checkDeleteGrave(Player player) {
-        if(PlayerData.getGraveCount(player) < 4) return;
-        long oldestTimestamp = PlayerData.getOldestGrave(player);
-        Location location = PlayerData.getGraveLocation(player, oldestTimestamp);
-        if(!location.isChunkLoaded()) location.getWorld().loadChunk(location.getChunk());
-        GraveHelper.dropGrave(location.getBlock());
-        PlayerData.removeGrave(player, oldestTimestamp);
     }
 }
